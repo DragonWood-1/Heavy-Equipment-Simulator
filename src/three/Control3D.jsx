@@ -65,6 +65,7 @@ export default function Control3D({ control, isTarget }) {
 
 function controlLabelHeight(control) {
   if (control.type === 'joystick') return 0.26
+  if (control.type === 'wheel') return 0.22
   if (control.type === 'pedal') return 0.16
   return 0.2
 }
@@ -73,6 +74,8 @@ function ControlMesh({ control, value, baseColor, emissive, tap, common }) {
   switch (control.type) {
     case 'joystick':
       return <Joystick control={control} baseColor={baseColor} emissive={emissive} tap={tap} common={common} />
+    case 'wheel':
+      return <SteeringWheel control={control} baseColor={baseColor} emissive={emissive} tap={tap} common={common} />
     case 'key':
       return <KeySwitch value={value} baseColor={baseColor} emissive={emissive} tap={tap} common={common} />
     case 'lever':
@@ -251,6 +254,54 @@ function Pedal({ baseColor, emissive, tap, common }) {
         <boxGeometry args={[0.22, 0.02, 0.16]} />
         <meshStandardMaterial color={baseColor} emissive={emissive} emissiveIntensity={0.4} />
       </mesh>
+    </group>
+  )
+}
+
+function SteeringWheel({ control, baseColor, emissive, tap, common }) {
+  const [turn, setTurn] = useState(0)
+  return (
+    <group rotation={[-0.9, 0, 0]}>
+      {/* column */}
+      <mesh position={[0, -0.12, 0]} {...common}>
+        <cylinderGeometry args={[0.025, 0.03, 0.2, 16]} />
+        <meshStandardMaterial color="#0f172a" />
+      </mesh>
+      <group rotation={[0, turn, 0]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.16, 0.022, 12, 32]} />
+          <meshStandardMaterial color={baseColor} emissive={emissive} emissiveIntensity={0.4} />
+        </mesh>
+        {/* spokes */}
+        {[0, Math.PI * 2 / 3, Math.PI * 4 / 3].map((a) => (
+          <mesh key={a} rotation={[0, a, 0]} position={[0, 0, 0]}>
+            <boxGeometry args={[0.16, 0.018, 0.018]} />
+            <meshStandardMaterial color="#1e293b" />
+          </mesh>
+        ))}
+        <mesh>
+          <cylinderGeometry args={[0.04, 0.04, 0.03, 16]} />
+          <meshStandardMaterial color="#1e293b" />
+        </mesh>
+      </group>
+
+      {control.directions.map((d) => (
+        <mesh
+          key={d.action}
+          position={[d.dir[0] * 0.22, 0, 0]}
+          onClick={(e) => {
+            tap({ action: d.action })(e)
+            setTurn(d.dir[0] * -0.6)
+            setTimeout(() => setTurn(0), 250)
+          }}
+        >
+          <cylinderGeometry args={[0.03, 0.03, 0.02, 16]} />
+          <meshStandardMaterial color="#334155" emissive={emissive} emissiveIntensity={0.3} />
+          <Html center position={[0, 0.03, 0]} distanceFactor={2.6} style={{ pointerEvents: 'none' }}>
+            <div className="joy-pad">{d.label}</div>
+          </Html>
+        </mesh>
+      ))}
     </group>
   )
 }

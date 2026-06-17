@@ -59,5 +59,5 @@
  */
 
 export const CONTROL_TYPES = [
-  'buckle', 'lapbar', 'lockout', 'key', 'lever', 'toggle', 'button', 'pedal', 'joystick',
+  'buckle', 'lapbar', 'lockout', 'key', 'lever', 'toggle', 'button', 'pedal', 'joystick', 'wheel',
 ]

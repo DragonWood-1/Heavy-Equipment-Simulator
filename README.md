@@ -12,14 +12,18 @@ the brief requires.
 
 ## Status
 
-| Machine | State |
-| --- | --- |
-| Skid Steer Loader | Built (controls + start-up + operation + hazards) |
-| Hydraulic Excavator | Built (controls + start-up + dig cycle + hazards) |
-| Bulldozer, Backhoe, Trencher, Scraper, Crane, Telehandler, Boom/Scissor Lift, Motor Grader, Compactor, Asphalt Paver, Dump/Articulated Hauler, Concrete Mixer, Concrete Pump, Mining Shovel, Dragline | Listed in the fleet as stubs, ready to be authored as data |
+All **17 machines** are built and trainable — each has 3D cab controls, a
+start-up procedure, an operation procedure, and safety hazards that trigger the
+Fatal Error screen:
 
-The app is **data-driven**: adding a fully-trainable machine means writing one
-data file — no engine or UI changes.
+Skid Steer Loader · Hydraulic Excavator · Bulldozer · Backhoe Loader ·
+Trencher · Wheel Tractor-Scraper · Mobile Crane · Telehandler ·
+Boom/Scissor Lift · Motor Grader · Compactor (Road Roller) · Asphalt Paver ·
+Dump Truck / Articulated Hauler · Concrete Mixer Truck · Concrete Pump ·
+Hydraulic Mining Shovel · Dragline
+
+The app is **data-driven**: adding another machine means writing one data file —
+no engine or UI changes.
 
 ## Tech
 
